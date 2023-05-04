@@ -1,0 +1,24 @@
+{
+  "name": "app-test-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "testfile1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worktest-hc2023/app-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/worktest-hc2023/app-test/issues"
+  },
+  "homepage": "https://github.com/worktest-hc2023/app-test#readme",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0"
+  }
+}
