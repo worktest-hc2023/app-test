@@ -26,6 +26,16 @@ pipeline {
     }
     post {
         always {
+            script{
+                sh '''
+                    curl -L \
+                      -X POST \
+                      -H "Accept: application/vnd.github+json" \
+                      -H "X-GitHub-Api-Version: 2022-11-28" \
+                      "https://api.github.com/repos/worktest-hc2023/app-test/check-runs" \
+                      -d '{"name":"test_check","head_sha":"${{github.event.pull_request.head.sha}}"}'
+                '''
+            }
             junit '**/test-results.xml'
             script {
                 resultString = "None"
