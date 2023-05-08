@@ -31,7 +31,7 @@ pipeline {
                     curl -L \
                       -X POST \
                       -H "Accept: application/vnd.github+json" \
-                      -H "Authorization: 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"\
+                      -H "Authorization: Bearer 1xGGBaEBrbBNxjaQ6ccnzkD9bZkOqVk8acfdaY3V9J4="\
                       -H "X-GitHub-Api-Version: 2022-11-28" \
                       "https://api.github.com/repos/worktest-hc2023/app-test/check-runs" \
                       -d '{"name":"test_check","head_sha":"${{github.event.pull_request.head.sha}}"}'
