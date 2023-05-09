@@ -34,7 +34,7 @@ pipeline {
                       -H "Authorization: Bearer ${secrets.GITHUB_TOKEN}"\
                       -H "X-GitHub-Api-Version: 2022-11-28" \
                       "https://api.github.com/repos/worktest-hc2023/app-test/check-runs" \
-                      -d '{"name":"test_check","head_sha":"${{github.event.pull_request.head.sha}}"}'
+                      -d '{"name":"test_check","head_sha":"${github.event.pull_request.head.sha}"}'
                 """
             }
             junit '**/test-results.xml'
