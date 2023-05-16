@@ -16,6 +16,7 @@ pipeline {
                 echo 'Testing..'
                 sh """
                     npm run junit-test
+                    node testfile1.js
                 """
             }
         }

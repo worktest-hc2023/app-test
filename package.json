@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/worktest-hc2023/app-test.git"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -22,5 +23,10 @@
     "chai-http": "^4.3.0",
     "mocha": "^10.2.0",
     "mocha-junit-reporter": "^2.2.0"
+  },
+  "dependencies": {
+    "@octokit/auth-app": "^4.0.10",
+    "dotenv": "^16.0.3",
+    "octokit": "^2.0.14"
   }
 }
