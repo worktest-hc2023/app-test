@@ -1,4 +1,4 @@
-def check_runs = new com.functions.buildGithubCheckScript()
+def check_runs
 
 pipeline {
     agent any
@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                check_runs = load 'buildGithubCheckScript.groovy'
                 echo 'Building..'
                 sh """
                     env
