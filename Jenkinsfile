@@ -1,4 +1,8 @@
-def check_runs = new com.functions.buildGithubCheckScript()
+def check_runs
+
+node{
+    check_runs = load 'buildGithubCheckScript.groovy'
+}
 
 pipeline {
     agent any
