@@ -1,3 +1,5 @@
+def check_runs = new com.functions.buildGithubCheckScript()
+
 pipeline {
     agent any
 
@@ -16,7 +18,6 @@ pipeline {
                 echo 'Testing..'
                 sh """
                     npm run junit-test
-                    node testfile1.js
                 """
             }
         }
