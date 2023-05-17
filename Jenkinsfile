@@ -2,11 +2,12 @@ def check_runs
 
 pipeline {
     agent any
-
+    node('slave'){
+        check_runs = load 'buildGithubCheckScript.groovy'
+    }
     stages {
         stage('Build') {
             steps {
-                check_runs = load 'buildGithubCheckScript.groovy'
                 echo 'Building..'
                 sh """
                     env
