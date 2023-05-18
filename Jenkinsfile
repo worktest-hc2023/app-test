@@ -1,8 +1,8 @@
-def check_runs
-
-node{
-    check_runs = load 'buildGithubCheckScript.groovy'
-}
+// def check_runs
+//
+// node{
+//     check_runs = load 'buildGithubCheckScript.groovy'
+// }
 
 pipeline {
     agent any
@@ -21,6 +21,7 @@ pipeline {
                 echo 'Testing..'
                 sh """
                     npm run junit-test
+                    node testfile1.js 'Name' ${env.GIT_COMMIT} 'in_progress' {title: 'Test Report', summary: '', text: ''}
                 """
             }
         }
