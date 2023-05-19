@@ -6,10 +6,15 @@
 
 pipeline {
     agent any
+    environment {
+        GITHUB_APP_ID = credentials('GITHUB_APP_ID')
+        GITHUB_INSTALLATION_ID = credentials('GITHUB_INSTALLATION_ID')
+    }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
+                echo $GITHUB_APP_ID
                 sh """
                     env
                     npm install
@@ -21,7 +26,6 @@ pipeline {
                 echo 'Testing..'
                 sh """
                     npm run junit-test
-                    node testfile1.js 'Name' ${env.GIT_COMMIT} 'in_progress' {title: 'Test Report', summary: '', text: ''}
                 """
             }
         }
