@@ -7,14 +7,14 @@
 pipeline {
     agent any
     environment {
-//         GITHUB_APP_ID = "Testing..."
         GITHUB_APP_ID = credentials('GITHUB_APP_ID')
-//         GITHUB_INSTALLATION_ID = credentials('GITHUB_INSTALLATION_ID')
+        GITHUB_INSTALLATION_ID = credentials('GITHUB_INSTALLATION_ID')
     }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
+                echo "${GITHUB_APP_ID}"
                 sh """
                     env
                     npm install
