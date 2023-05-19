@@ -14,7 +14,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                echo "${GITHUB_APP_ID}"
                 sh """
                     env
                     npm install
