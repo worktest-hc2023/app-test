@@ -47,7 +47,7 @@ async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out
 async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
     const app = new App({
         appId: app_id,
-        privateKey: pem.replaceAll(/\\n/g, '\n'),
+        privateKey: (pem ?? '').replaceAll(/\\n/g, '\n'),
     });
     const octokit = await app.getInstallationOctokit(install_id);
     var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
