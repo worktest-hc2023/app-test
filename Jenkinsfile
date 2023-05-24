@@ -32,15 +32,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh """
+                    node testfile1.js ${GITHUB_APP_ID} ${GITHUB_PEM} ${GITHUB_INSTALLATION_ID} ${process.env.GIT_COMMIT}
+                """
             }
         }
     }
     post {
         always {
             junit '**/test-results.xml'
-            sh """
-                node testfile1.js ${GITHUB_APP_ID} ${GITHUB_PEM} ${GITHUB_INSTALLATION_ID} ${process.env.GIT_COMMIT}
-            """
             script {
                 resultString = "None"
             }
