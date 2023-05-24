@@ -45,10 +45,9 @@ async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out
 
 //completed check run function
 async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
-    console.log(app_id);
     const app = new App({
         appId: app_id,
-        privateKey: pem,
+        privateKey: pem.replaceAll(/\\n/g, '\n'),
     });
     const octokit = await app.getInstallationOctokit(install_id);
     var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
@@ -102,5 +101,5 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
 completedGitHubCheckRun(process.argv[4]);
 //githubCheckRun(process.argv[4]); //for jenkins maybe?
 //githubCheckRun('Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
-//completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, 'Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
+//completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, '95f0a41acdcdf71cfee23cbc746883e3f0ac2eb0');
 
