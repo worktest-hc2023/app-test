@@ -7,9 +7,9 @@
 pipeline {
     agent any
     environment {
-        GITHUB_APP_ID = credentials('GITHUB_APP_ID')
-        GITHUB_INSTALLATION_ID = credentials('GITHUB_INSTALLATION_ID')
-        GITHUB_PEM = credentials('GITHUB_PEM')
+        GITHUB_APP = credentials('GITHUB_APP_ID')
+        GITHUB_INSTALLATION = credentials('GITHUB_INSTALLATION_ID')
+        GITHUB_PERM = credentials('GITHUB_PEM')
         GIT_COMMIT = "${env.GIT_COMMIT}"
     }
     stages {
@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'node testfile1.js $GITHUB_APP_ID $GITHUB_PEM $GITHUB_INSTALLATION_ID $GIT_COMMIT'
+                sh 'node testfile1.js $GITHUB_APP $GITHUB_PERM $GITHUB_INSTALLATION $GIT_COMMIT'
             }
         }
     }
