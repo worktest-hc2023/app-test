@@ -33,9 +33,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh """
-                    node testfile1.js ${GITHUB_APP_ID} ${GITHUB_PEM} ${GITHUB_INSTALLATION_ID} ${GIT_COMMIT}
-                """
+                sh 'node testfile1.js $GITHUB_APP_ID $GITHUB_PEM $GITHUB_INSTALLATION_ID $GIT_COMMIT'
             }
         }
     }
