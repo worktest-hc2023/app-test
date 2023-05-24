@@ -33,7 +33,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 sh '''
-                    node testfile1.js "${GITHUB_APP_ID}" "${GITHUB_PEM}" "${GITHUB_INSTALLATION_ID}" "${process.env.GIT_COMMIT}"
+                    node testfile1.js "${GITHUB_APP_ID}" "${GITHUB_PEM}" "${GITHUB_INSTALLATION_ID}" "${env.GIT_COMMIT}"
                 '''
             }
         }
