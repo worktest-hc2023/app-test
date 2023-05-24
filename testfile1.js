@@ -1,13 +1,10 @@
-//import { App } from "octokit";
-//import { Octokit } from "octokit";
 const { createAppAuth } = require("@octokit/auth-app");
 const { Octokit, App } = require("octokit");
 require('dotenv').config()
-//import dotenv from 'dotenv'
-//dotenv.config()
 
 //let test="huh??";
 
+//hypothetical authentication function? Though it's currently not used
 async function authentication(){
     const auth = createAppAuth({
       appId: process.env.GITHUB_APP_ID,
@@ -17,22 +14,22 @@ async function authentication(){
 
     const appAuthentication = await auth({ type: "app" });
     console.log("here");
+    console.log(appAuthentication);
 
     return new Octokit({
         auth: appAuthentication,
     })
 }
 
-async function githubCheckRun(name, commitID, stat, out){
-//    var url = 'POST /repos/worktest-hc2023/app-test/commits/' + commitID + '/check-runs';
-//    const octokit = await authentication();
+//in progress check run function
+async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out){
     const app = new App({
         appId: process.env.GITHUB_APP_ID,
         privateKey: (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'),
-        installationId: process.env.GITHUB_INSTALLATION_ID
     });
     const octokit = await app.getInstallationOctokit(process.env.GITHUB_INSTALLATION_ID);
     var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
+
     await octokit.request(url, {
         owner: 'worktest-hc2023',
         repo: 'app-test',
@@ -45,38 +42,64 @@ async function githubCheckRun(name, commitID, stat, out){
         }
     });
 }
-githubCheckRun(process.argv[4]);
+
+//completed check run function
+async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
+    const app = new App({
+        appId: app_id,
+        privateKey: pem,
+    });
+    const octokit = await app.getInstallationOctokit(install_id);
+    var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
+
+    await octokit.request(url, {
+      owner: 'worktest-hc2023',
+      repo: 'app-test',
+      name: 'npm-test reports',
+      head_sha: commitID,
+      status: 'completed',
+      conclusion: 'success',
+      output: {
+        title: 'Mighty Readme report',
+        summary: 'There are 0 failures, 2 warnings, and 1 notices.',
+        text: 'You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.',
+        annotations: [
+          {
+            path: 'README.md',
+            annotation_level: 'warning',
+            title: 'Spell Checker',
+            message: 'Check your spelling for \'banaas\'.',
+            raw_details: 'Do you mean \'bananas\' or \'banana\'?',
+            start_line: 2,
+            end_line: 2
+          },
+          {
+            path: 'README.md',
+            annotation_level: 'warning',
+            title: 'Spell Checker',
+            message: 'Check your spelling for \'aples\'',
+            raw_details: 'Do you mean \'apples\' or \'Naples\'',
+            start_line: 4,
+            end_line: 4
+          }
+        ],
+      },
+      actions: [
+        {
+          label: 'Fix',
+          identifier: 'fix_errors',
+          description: 'Allow us to fix these errors for you'
+        }
+      ],
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    })
+
+}
+
+completedGitHubCheckRun(process.argv[4]);
+//githubCheckRun(process.argv[4]); //for jenkins maybe?
 //githubCheckRun('Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
+//completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, 'Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
 
-//    const app = new App({
-//        appId: process.env.GITHUB_APP_ID,
-//        privateKey: (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'),
-//        installationId: process.env.GITHUB_INSTALLATION_ID
-//    });
-
-//const installationAuthentication = await auth({ type: "installation" });
-
-// Octokit.js
-// https://github.com/octokit/core.js#readme
-
-//async function call(){
-//await octokit.request('POST /repos/worktest-hc2023/app-test/commits/2c6701db535928210458ed3c27a59c67279818e1/check-runs', {
-//    owner: 'worktest-hc2023',
-//    repo: 'app-test',
-//    name: 'npm-test reports',
-//    head_sha: '2c6701db535928210458ed3c27a59c67279818e1',
-//    status: 'in_progress',
-//    external_id: '42',
-//    started_at: '2018-05-04T01:14:52Z',
-//    output: {
-//        title: 'Test Report',
-//        summary: '',
-//        text: ''
-//    },
-//    headers: {
-//        'X-GitHub-Api-Version': '2022-11-28'
-//    }
-//});
-//}
-
-//call();

@@ -9,12 +9,12 @@ pipeline {
     environment {
         GITHUB_APP_ID = credentials('GITHUB_APP_ID')
         GITHUB_INSTALLATION_ID = credentials('GITHUB_INSTALLATION_ID')
+        GITHUB_PEM = credentials('GITHUB_PEM')
     }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
-                echo "${GITHUB_APP_ID}"
                 sh """
                     env
                     npm install
@@ -37,18 +37,10 @@ pipeline {
     }
     post {
         always {
-//             script{
-//                 sh """
-//                     curl -L \
-//                       -X POST \
-//                       -H "Accept: application/vnd.github+json" \
-//                       -H "Authorization: Bearer ${secrets.GITHUB_TOKEN}"\
-//                       -H "X-GitHub-Api-Version: 2022-11-28" \
-//                       "https://api.github.com/repos/worktest-hc2023/app-test/check-runs" \
-//                       -d '{"name":"test_check","head_sha":"${github.event.pull_request.head.sha}"}'
-//                 """
-//             }
             junit '**/test-results.xml'
+            sh """
+                node testfile1.js ${GITHUB_APP_ID} ${GITHUB_PEM} ${GITHUB_INSTALLATION_ID} ${process.env.GIT_COMMIT}
+            """
             script {
                 resultString = "None"
             }
