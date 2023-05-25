@@ -62,7 +62,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
       output: {
         title: 'Mocha Tests Report',
         summary: message,
-      }
+      },
       headers: {
         'X-GitHub-Api-Version': '2022-11-28'
       }
