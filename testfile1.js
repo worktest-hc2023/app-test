@@ -65,6 +65,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
       headers: {
         'X-GitHub-Api-Version': '2022-11-28'
       }
+      }
     })
 
 }
