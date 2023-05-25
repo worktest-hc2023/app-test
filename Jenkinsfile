@@ -25,19 +25,26 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh """
-                    npm run junit-test
-                """
+                script{
+                    try {
+                        sh """
+                            npm run junit-test
+                        """
+                        if (env.BRANCH_NAME.startsWith('PR')) {
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT' 'success'
+                        }
+                    } catch (err) {
+                        if (env.BRANCH_NAME.startsWith('PR')) {
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT' 'failure'
+                        }
+                        echo "Tests fail to pass: ${err}"
+                    }
+                }
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                script{
-                    if (env.BRANCH_NAME.startsWith('PR')) {
-                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT'
-                    }
-                }
             }
         }
     }

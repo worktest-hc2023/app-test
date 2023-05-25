@@ -44,11 +44,7 @@ async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out
 }
 
 //completed check run function
-async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
-//    console.log("App id: " + app_id);
-//    console.log("PEM: " +  pem);
-//    console.log("InstallID: " + install_id);
-//    console.log("COMMIT: " + commitID);
+async function completedGitHubCheckRun(app_id, pem, install_id, commitID, stat){
     const app = new App({
         appId: app_id,
         privateKey: (pem ?? '').replaceAll(/\\n/g, '\n'),
@@ -62,7 +58,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
       name: 'npm-test reports',
       head_sha: commitID,
       status: 'completed',
-      conclusion: 'success',
+      conclusion: stat,
       output: {
         title: 'Mighty Readme report',
         summary: 'There are 0 failures, 2 warnings, and 1 notices.',
@@ -103,7 +99,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
 }
 
 
-completedGitHubCheckRun(process.argv[2], process.argv[3], process.argv[4], process.argv[5]);
+completedGitHubCheckRun(process.argv[2], process.argv[3], process.argv[4], process.argv[5], process.argv[6]);
 //githubCheckRun(process.argv[4]); //for jenkins maybe?
 //githubCheckRun('Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
 //completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, '95f0a41acdcdf71cfee23cbc746883e3f0ac2eb0');
