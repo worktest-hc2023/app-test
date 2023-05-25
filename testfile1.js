@@ -45,6 +45,7 @@ async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out
 
 //completed check run function
 async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, message){
+    console.log("Message: " + message);
     const app = new App({
         appId: app_id,
         privateKey: (pem ?? '').replaceAll(/\\n/g, '\n'),
