@@ -1,0 +1,32 @@
+{
+  "name": "app-test-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "testfile1.js",
+  "scripts": {
+    "test": "mocha",
+    "junit-test": "mocha --reporter mocha-junit-reporter --reporter-options ./test-results.xml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worktest-hc2023/app-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/worktest-hc2023/app-test/issues"
+  },
+  "homepage": "https://github.com/worktest-hc2023/app-test#readme",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.0"
+  },
+  "dependencies": {
+    "@octokit/auth-app": "^4.0.10",
+    "@octokit/core": "^4.2.1",
+    "dotenv": "^16.0.3",
+    "octokit": "^2.0.14"
+  }
+}
