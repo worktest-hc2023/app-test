@@ -8,8 +8,7 @@ pipeline {
     agent any
     environment {
         GITHUB_APP = credentials('GITHUB_APP_ID')
-        GITHUB_INSTALL = credentials('GITHUB_INSTALLATION_ID')
-        GITHUB_INSTALLATION = "\'" + GITHUB_INSTALL + "\'"
+        GITHUB_INSTALLATION = "'${credentials('GITHUB_INSTALLATION_ID')}'"
         GITHUB_PERM = credentials('GITHUB_PEM')
         GIT_COMMIT = "${env.GIT_COMMIT}"
     }
