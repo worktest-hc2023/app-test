@@ -44,7 +44,7 @@ async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out
 }
 
 //completed check run function
-async function completedGitHubCheckRun(app_id, pem, install_id, commitID, stat){
+async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con){
     const app = new App({
         appId: app_id,
         privateKey: (pem ?? '').replaceAll(/\\n/g, '\n'),
@@ -58,7 +58,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, stat){
       name: 'npm-test reports',
       head_sha: commitID,
       status: 'completed',
-      conclusion: stat,
+      conclusion: con,
       output: {
         title: 'Mighty Readme report',
         summary: 'There are 0 failures, 2 warnings, and 1 notices.',
