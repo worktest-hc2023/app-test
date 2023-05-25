@@ -98,7 +98,14 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID){
 
 }
 
-completedGitHubCheckRun(process.argv[4]);
+function test(t, t2){
+    console.log(t);
+    console.log(t2);
+}
+
+//test(process.argv[2], process.argv[3]);
+
+completedGitHubCheckRun(process.argv[2], process.argv[3], process.argv[4], process.argv[5]);
 //githubCheckRun(process.argv[4]); //for jenkins maybe?
 //githubCheckRun('Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
 //completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, '95f0a41acdcdf71cfee23cbc746883e3f0ac2eb0');
