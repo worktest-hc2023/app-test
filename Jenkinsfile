@@ -35,7 +35,7 @@ pipeline {
                 echo 'Deploying....'
                 script{
                     if (env.BRANCH_NAME.startsWith('PR')) {
-                        sh 'node testfile1.js $GITHUB_APP $GITHUB_PERM $GITHUB_INSTALLATION $GIT_COMMIT'
+                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT'
                     }
                 }
             }
