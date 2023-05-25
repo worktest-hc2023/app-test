@@ -30,17 +30,18 @@ pipeline {
                         sh """
                             npm run junit-test
                         """
+
                         MOCHA_OUTPUT = sh (
                             script: 'npm test',
                             returnStdout: true
                         ).trim()
-                        echo "Test output: ${MOCHA_OUTPUT}"
+
                         if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success"'
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" $MOCHA_OUTPUT'
                         }
                     } catch (err) {
                         if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure"'
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" $MOCHA_OUTPUT'
                         }
                         echo "Tests fail to pass: ${err}"
                     }
