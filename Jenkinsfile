@@ -11,7 +11,6 @@ pipeline {
         GITHUB_INSTALLATION = credentials('GITHUB_INSTALLATION_ID')
         GITHUB_PERM = credentials('GITHUB_PEM')
         GIT_COMMIT = "${env.GIT_COMMIT}"
-        MOCHA_OUTPUT = "Test Message"
     }
     stages {
         stage('Build') {
@@ -32,7 +31,7 @@ pipeline {
                             npm run junit-test
                         """
 
-                        MOCHA_OUTPUT = sh (
+                        env.MOCHA_OUTPUT = sh (
                             script: 'npm test',
                             returnStdout: true
                         ).trim()
