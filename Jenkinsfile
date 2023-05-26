@@ -27,22 +27,25 @@ pipeline {
                 echo 'Testing..'
                 script{
                     try {
-                        sh """
-                            npm run junit-test
-                        """
-
                         env.MOCHA_OUTPUT = sh (
                             script: 'npm test',
                             returnStdout: true
                         ).trim()
+
+                        sh """
+                            npm run junit-test
+                        """
 
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
                             echo "Mocha Output: ${MOCHA_OUTPUT}"
                         }
                     } catch (err) {
+                        sh """
+                            npm run junit-test
+                        """
                         if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "${MOCHA_OUTPUT}"'
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
                         }
                         echo "Tests fail to pass: ${err}"
                     }
