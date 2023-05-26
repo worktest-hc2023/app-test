@@ -26,17 +26,16 @@ pipeline {
             steps {
                 echo 'Testing..'
                 script{
-                    try {
+//                     try {
                         env.MOCHA_OUTPUT = sh (
                             script: 'npm test',
-                            returnStatus: true,
                             returnStdout: true
                         ).trim()
 
-//                         MOCHA_STATUS = sh (
-//                             script: 'npm test',
-//                             returnStatus: true
-//                         )
+                        MOCHA_STATUS = sh (
+                            script: 'npm test',
+                            returnStatus: true
+                        )
 
                         sh """
                             npm run junit-test
@@ -46,23 +45,23 @@ pipeline {
 
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             echo "Entered success branch statement"
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
-//                             if (MOCHA_STATUS != 0) {
-//                                 sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
-//                             }else{
-//                                 sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
-//                             }
+//                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
+                            if (MOCHA_STATUS != 0) {
+                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
+                            }else{
+                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
+                            }
 
                         }
-                    } catch (err) {
-                        echo "Tests failed: We are here"
-                        if (env.BRANCH_NAME.startsWith('PR')) {
-                            echo "Entered failed branch statement"
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
-                        }
-                        echo "Mocha Output: ${MOCHA_OUTPUT}"
-                        echo "Tests fail to pass: ${err}"
-                    }
+//                     } catch (err) {
+//                         echo "Tests failed: We are here"
+//                         if (env.BRANCH_NAME.startsWith('PR')) {
+//                             echo "Entered failed branch statement"
+//                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
+//                         }
+//                         echo "Mocha Output: ${MOCHA_OUTPUT}"
+//                         echo "Tests fail to pass: ${err}"
+//                     }
                 }
             }
         }
