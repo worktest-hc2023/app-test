@@ -55,14 +55,11 @@ pipeline {
                         }
                     } catch (err) {
                         echo "Tests failed: We are here"
-                        env.MOCHA_OUTPUT = sh (
-                            script: 'npm test',
-                            returnStdout: true
-                        ).trim()
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             echo "Entered failed branch statement"
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
                         }
+                        echo "Mocha Output: ${MOCHA_OUTPUT}"
                         echo "Tests fail to pass: ${err}"
                     }
                 }
