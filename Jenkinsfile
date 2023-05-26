@@ -38,7 +38,7 @@ pipeline {
 
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "${MOCHA_OUTPUT}"'
-                            echo 'Mocha Output: ${MOCHA_OUTPUT}'
+                            echo "Mocha Output: ${MOCHA_OUTPUT}"
                         }
                     } catch (err) {
                         if (env.BRANCH_NAME.startsWith('PR')) {
