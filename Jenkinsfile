@@ -29,6 +29,7 @@ pipeline {
                     try {
                         env.MOCHA_OUTPUT = sh (
                             script: 'npm test',
+                            returnStatus: true,
                             returnStdout: true
                         ).trim()
 
