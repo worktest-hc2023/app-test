@@ -36,7 +36,10 @@ pipeline {
                             npm run junit-test
                         """
 
+                        echo "Tests Successful: We are here"
+
                         if (env.BRANCH_NAME.startsWith('PR')) {
+                            echo "Entered success branch statement"
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
                             echo "Mocha Output: ${MOCHA_OUTPUT}"
                         }
@@ -44,7 +47,9 @@ pipeline {
                         sh """
                             npm run junit-test
                         """
+                        echo "Tests failed: We are here"
                         if (env.BRANCH_NAME.startsWith('PR')) {
+                            echo "Entered failed branch statement"
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
                         }
                         echo "Tests fail to pass: ${err}"
