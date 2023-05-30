@@ -47,6 +47,9 @@ pipeline {
                         }
                     } catch (err) {
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
+                        sh """
+                            npm run junit-test
+                        """
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
                         }
