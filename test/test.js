@@ -8,7 +8,7 @@ describe('Example Tests for Jenkins Check', function(){
         done();
     });
 
-    it('Checks is word = word', (done)=>{
+    it('Checks if word = word', (done)=>{
         expect("test").to.equal("test");
         done();
     });
@@ -21,9 +21,9 @@ describe('Guaranteed Not-Fail Tests', function(){
     });
 });
 
-//describe('Guaranteed Fail Tests', function(){
-//    it('Checks if 9 + 10 = 21', (done)=>{
-//        expect(9+10).to.equal(21);
-//        done();
-//    });
-//});
+describe('Guaranteed Fail Tests', function(){
+    it('Checks if 9 + 10 = 21', (done)=>{
+        expect(9+10).to.equal(21);
+        done();
+    });
+});
