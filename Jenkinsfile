@@ -33,10 +33,12 @@ pipeline {
                 echo 'Testing..'
                 script{
                     try {
-                        env.MOCHA_OUTPUT = sh (
-                            script: 'npm test',
-                            returnStdout: true
-                        ).trim()
+//                         env.MOCHA_OUTPUT = sh (
+//                             script: 'npm test',
+//                             returnStdout: true
+//                         ).trim()
+                        sh "npm test > mochaResult"
+                        env.MOCHA_OUTPUT = readFile('mochaResult').trim()
 
                         sh """
                             npm run junit-test
