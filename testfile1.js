@@ -53,21 +53,39 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
     const octokit = await app.getInstallationOctokit(install_id);
     var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
 
-    await octokit.request(url, {
-      owner: 'worktest-hc2023',
-      repo: 'app-test',
-      name: 'Jenkins Tests Report',
-      head_sha: commitID,
-      status: 'completed',
-      conclusion: con,
-      output: {
-        title: 'Mocha Tests Report',
-        summary: message,
-      },
-      headers: {
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    })
+    if(con == ""){
+        await octokit.request(url, {
+            owner: 'worktest-hc2023',
+            repo: 'app-test',
+            name: 'Jenkins Tests Report',
+            head_sha: commitID,
+            status: 'in_progress',
+            output: {
+                title: 'Jenkins checks in progress',
+                summary: '',
+                text: ''
+              },
+            headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        });
+    } else {
+        await octokit.request(url, {
+          owner: 'worktest-hc2023',
+          repo: 'app-test',
+          name: 'Jenkins Tests Report',
+          head_sha: commitID,
+          status: 'completed',
+          conclusion: con,
+          output: {
+            title: 'Mocha Tests Report',
+            summary: message,
+          },
+          headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        })
+    }
 
 }
 
