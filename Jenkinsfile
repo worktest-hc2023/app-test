@@ -20,12 +20,13 @@ pipeline {
                     env
                     npm install
                 """
-                script{
-                    if (env.BRANCH_NAME.startsWith('PR')) {
-                        echo "Entered in-progress branch statement"
-                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" ""'
-                    }
-                }
+                //for making an in-progress check, although it would be better to somehow get a checkrun id and update it
+//                 script{
+//                     if (env.BRANCH_NAME.startsWith('PR')) {
+//                         echo "Entered in-progress branch statement"
+//                         sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" ""'
+//                     }
+//                 }
             }
         }
         stage('Test') {
@@ -54,7 +55,7 @@ pipeline {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
                         }
                         echo "Tests fail to pass: ${err}"
-                        currentBuild.result = 'FAILURE'
+                        currentBuild.result = 'FAILURE' //sets build to failure, but doesn't actually say where the failure is so...
                     }
                 }
             }

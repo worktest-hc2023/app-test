@@ -13,15 +13,14 @@ async function authentication(){
     });
 
     const appAuthentication = await auth({ type: "app" });
-    console.log("here");
-    console.log(appAuthentication);
+    console.log(appAuthentication); //gets the json web token
 
     return new Octokit({
         auth: appAuthentication,
     })
 }
 
-//in progress check run function
+//in progress check run function (unused technically, but has the code)
 async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out){
     const app = new App({
         appId: process.env.GITHUB_APP_ID,
@@ -90,7 +89,5 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
 
 
 completedGitHubCheckRun(process.argv[2], process.argv[3], process.argv[4], process.argv[5], process.argv[6], process.argv[7]);
-//githubCheckRun(process.argv[4]); //for jenkins maybe?
-//githubCheckRun('Name', '2c6701db535928210458ed3c27a59c67279818e1', 'in_progress', {title: 'Test Report', summary: '', text: ''});
 //completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, '95f0a41acdcdf71cfee23cbc746883e3f0ac2eb0');
 
