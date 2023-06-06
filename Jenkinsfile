@@ -20,20 +20,49 @@ pipeline {
                     env
                     npm install
                 """
+                //for making an in-progress check, although it would be better to somehow get a checkrun id and update it
+//                 script{
+//                     if (env.BRANCH_NAME.startsWith('PR')) {
+//                         echo "Entered in-progress branch statement"
+//                         sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" ""'
+//                     }
+//                 }
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh """
-                    npm run junit-test
-                """
+                script{
+                    try {
+                        sh "npm test > mochaResult"
+
+                        env.MOCHA_OUTPUT = readFile('mochaResult').trim()
+
+                        sh """
+                            npm run junit-test
+                        """
+
+                        if (env.BRANCH_NAME.startsWith('PR')) {
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
+
+                        }
+                    } catch (err) {
+                        env.MOCHA_OUTPUT = readFile('mochaResult').trim()
+                        if (env.BRANCH_NAME.startsWith('PR')) {
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
+                        }
+                        echo "Tests fail to pass: ${err}"
+                        sh """
+                            npm run junit-test
+                        """
+//                         currentBuild.result = 'FAILURE' //sets build to failure, but doesn't actually say where the failure is so...
+                    }
+                }
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-//                 sh 'node testfile1.js $GITHUB_APP $GITHUB_PERM $GITHUB_INSTALLATION $GIT_COMMIT'
             }
         }
     }
