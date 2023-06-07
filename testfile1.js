@@ -43,15 +43,15 @@ async function githubCheckRun(app_id, pem, install_id, name, commitID, stat, out
 }
 
 //completed check run function
-async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, message){
+async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, message, checkrun_id){
     const app = new App({
         appId: app_id,
         privateKey: (pem ?? '').replaceAll(/\\n/g, '\n'),
     });
     const octokit = await app.getInstallationOctokit(install_id);
-    var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
 
     if(con == ""){
+        var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
         await octokit.request(url, {
             owner: 'worktest-hc2023',
             repo: 'app-test',
@@ -68,6 +68,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
             }
         });
     } else {
+        var url = 'PATCH /repos/worktest-hc2023/app-test/check-runs/' + checkrun_id;
         await octokit.request(url, {
           owner: 'worktest-hc2023',
           repo: 'app-test',
@@ -88,6 +89,6 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
 }
 
 
-completedGitHubCheckRun(process.argv[2], process.argv[3], process.argv[4], process.argv[5], process.argv[6], process.argv[7]);
+completedGitHubCheckRun(process.argv[2], process.argv[3], process.argv[4], process.argv[5], process.argv[6], process.argv[7], process.argv[8]);
 //completedGitHubCheckRun(process.env.GITHUB_APP_ID, (process.env.GITHUB_PEM ?? '').replaceAll(/\\n/g, '\n'), process.env.GITHUB_INSTALLATION_ID, '95f0a41acdcdf71cfee23cbc746883e3f0ac2eb0');
 

@@ -20,19 +20,27 @@ pipeline {
                     env
                     npm install
                 """
-                //for making an in-progress check, although it would be better to somehow get a checkrun id and update it
-//                 script{
-//                     if (env.BRANCH_NAME.startsWith('PR')) {
-//                         echo "Entered in-progress branch statement"
-//                         sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" ""'
-//                     }
-//                 }
+//                 for making an in-progress check, although it would be better to somehow get a checkrun id and update it
+                script{
+                    if (env.BRANCH_NAME.startsWith('PR')) {
+                        echo "Entered in-progress branch statement"
+                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" "" ""'
+                    }
+                }
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing..'
                 script{
+                    if (env.BRANCH_NAME.startsWith('PR')){
+                        env.CHECKRUN_ID = sh (
+                                                script: 'node checkid.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT',
+                                                returnStdout: true
+                                            ).trim()
+                    }
+
+                    echo
                     try {
                         sh "npm test > mochaResult"
 
@@ -43,13 +51,13 @@ pipeline {
                         """
 
                         if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT"'
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT" $CHECKRUN_ID'
 
                         }
                     } catch (err) {
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
                         if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT"'
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID'
                         }
                         echo "Tests fail to pass: ${err}"
                         sh """
