@@ -38,7 +38,7 @@ pipeline {
                                                 script: 'node checkid.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT',
                                                 returnStdout: true
                                             ).trim()
-                        echo '$CHECKRUN_ID'
+                        echo '${CHECKRUN_ID}'
                     }
                     try {
                         sh "npm test > mochaResult"
