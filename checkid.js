@@ -18,14 +18,16 @@ async function checkId(app_id, pem, install_id, commitID){
       }
     })
 
+    var res = '';
+
     for (var i = 0; i < (result.data.check_runs).length; i++){
         if(result.data.check_runs[i].name == 'Jenkins Tests Report'){
-            console.log(result.data.check_runs[i].id);
+            res = result.data.check_runs[i].id;
             break;
         }
     }
 
-//    console.log(result.data.check_runs[0].id);
+    console.log(res);
 }
 
 
