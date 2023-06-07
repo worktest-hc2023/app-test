@@ -38,7 +38,7 @@ pipeline {
                                                 script: 'node checkid.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT',
                                                 returnStdout: true
                                             ).trim()
-                        echo '${CHECKRUN_ID}'
+                        echo "${CHECKRUN_ID}"
                     }
                     try {
                         sh "npm test > mochaResult"
@@ -49,7 +49,7 @@ pipeline {
                             npm run junit-test
                         """
 
-                        echo '${CHECKRUN_ID}'
+                        echo "${CHECKRUN_ID}"
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT" $CHECKRUN_ID'
 
