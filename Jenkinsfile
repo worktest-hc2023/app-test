@@ -41,7 +41,7 @@ pipeline {
                         echo "${CHECKRUN_ID}"
                     }
                     try {
-                        sh "npm run first-test > mochaResult"
+                        sh "npm run first-test >> mochaResult"
 
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
 
@@ -65,11 +65,6 @@ pipeline {
 
                     } catch (err) {
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
-//                         if (fileExists('file')) {
-//                             echo 'Yes'
-//                         } else {
-//                             echo 'No'
-//                         }
                         if (env.BRANCH_NAME.startsWith('PR')) {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID'
                         }
