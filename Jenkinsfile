@@ -41,7 +41,7 @@ pipeline {
                         echo "${CHECKRUN_ID}"
                     }
                     try {
-                        sh "npm run first-test >> mochaResult"
+                        sh "npm run first-test > mochaResult"
 
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
 
