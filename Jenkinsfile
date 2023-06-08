@@ -45,9 +45,9 @@ pipeline {
 
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
 
-                        sh """
-                            npm run junit-test
-                        """
+//                         sh """
+//                             npm run junit-test
+//                         """
 
                         echo "${CHECKRUN_ID}"
                         if (env.BRANCH_NAME.startsWith('PR')) {
@@ -69,9 +69,9 @@ pipeline {
                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID'
                         }
                         echo "Tests fail to pass: ${err}"
-                        sh """
-                            npm run junit-test
-                        """
+//                         sh """
+//                             npm run junit-test
+//                         """
 //                         currentBuild.result = 'FAILURE' //sets build to failure, but doesn't actually say where the failure is so...
                     }
                 }
@@ -85,7 +85,7 @@ pipeline {
     }
     post {
         always {
-            junit '**/test-results.xml'
+//             junit '**/test-results.xml'
             script {
                 resultString = "None"
             }
