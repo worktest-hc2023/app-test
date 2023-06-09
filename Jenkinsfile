@@ -45,13 +45,15 @@ pipeline {
                         list.each { item ->
                             if (item == 'first-test'){
                                 sh "npm run ${item} > mochaResult"
+                                env.STAT = "in_progress"
                             }else{
                                 sh "npm run ${item} >> mochaResult"
+                                env.STAT = "success"
                             }
 
                             env.MOCHA_OUTPUT = readFile('mochaResult').trim()
                             if (env.BRANCH_NAME.startsWith('PR')) {
-                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "success" "$MOCHA_OUTPUT" $CHECKRUN_ID'
+                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT $STAT "$MOCHA_OUTPUT" $CHECKRUN_ID'
                             }
                         }
 //                         sh "npm run first-test > mochaResult"
