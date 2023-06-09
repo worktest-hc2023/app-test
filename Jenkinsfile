@@ -55,7 +55,7 @@ pipeline {
 
                             env.MOCHA_OUTPUT = readFile('mochaResult').trim()
                             if (env.BRANCH_NAME.startsWith('PR')) {
-                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "CONCLUSION" "$MOCHA_OUTPUT" $CHECKRUN_ID $STAT'
+                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "$CONCLUSION" "$MOCHA_OUTPUT" $CHECKRUN_ID $STAT'
                             }
                         }
 //                         sh "npm run first-test > mochaResult"
