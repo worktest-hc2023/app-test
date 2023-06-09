@@ -24,7 +24,7 @@ pipeline {
                 script{
                     if (env.BRANCH_NAME.startsWith('PR')) {
                         echo "Entered in-progress branch statement"
-                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" "" ""'
+                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" "" "" ""'
                     }
                 }
             }
@@ -45,15 +45,17 @@ pipeline {
                         list.each { item ->
                             if (item == 'first-test'){
                                 sh "npm run ${item} > mochaResult"
-                                env.STAT = ""
+                                env.CONCLUSION = ""
+                                env.STAT = "in_progress"
                             }else{
                                 sh "npm run ${item} >> mochaResult"
-                                env.STAT = "success"
+                                env.CONCLUSION = "success"
+                                env.STAT = "completed"
                             }
 
                             env.MOCHA_OUTPUT = readFile('mochaResult').trim()
                             if (env.BRANCH_NAME.startsWith('PR')) {
-                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "$STAT" "$MOCHA_OUTPUT" $CHECKRUN_ID'
+                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "CONCLUSION" "$MOCHA_OUTPUT" $CHECKRUN_ID $STAT'
                             }
                         }
 //                         sh "npm run first-test > mochaResult"
@@ -81,7 +83,7 @@ pipeline {
                     } catch (err) {
                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
                         if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID'
+                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID "completed"'
                         }
                         echo "Tests fail to pass: ${err}"
 //                         sh """
