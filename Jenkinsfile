@@ -45,7 +45,7 @@ pipeline {
                         list.each { item ->
                             if (item == 'first-test'){
                                 sh "npm run ${item} > mochaResult"
-                                env.STAT = "in_progress"
+                                env.STAT = ""
                             }else{
                                 sh "npm run ${item} >> mochaResult"
                                 env.STAT = "success"

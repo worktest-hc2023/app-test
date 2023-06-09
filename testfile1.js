@@ -60,7 +60,7 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
             status: 'in_progress',
             output: {
                 title: 'Jenkins checks in progress',
-                summary: '',
+                summary: message,
                 text: ''
               },
             headers: {
