@@ -50,41 +50,69 @@ async function completedGitHubCheckRun(app_id, pem, install_id, commitID, con, m
     });
     const octokit = await app.getInstallationOctokit(install_id);
 
-    if(status == ""){
+    var oct_obj = {
+                       owner: 'worktest-hc2023',
+                       repo: 'app-test',
+                       name: 'Jenkins Tests Report',
+                       head_sha: commitID,
+                       status: status,
+                       output: {
+                           title: 'Mocha Test Reports',
+                           summary: message,
+                           text: ''
+                         },
+                       headers: {
+                           'X-GitHub-Api-Version': '2022-11-28'
+                       }
+                   }
+
+    if(checkrun_id == ""){
         var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
-        await octokit.request(url, {
-            owner: 'worktest-hc2023',
-            repo: 'app-test',
-            name: 'Jenkins Tests Report',
-            head_sha: commitID,
-            status: 'in_progress',
-            output: {
-                title: 'Jenkins checks in progress',
-                summary: message,
-                text: ''
-              },
-            headers: {
-                'X-GitHub-Api-Version': '2022-11-28'
-            }
-        });
-    } else {
+        oct_obj.status = 'in_progress';
+        await octokit.request(url, oct_obj);
+    } else if (status == 'in_progress'){
         var url = 'PATCH /repos/worktest-hc2023/app-test/check-runs/' + checkrun_id;
-        await octokit.request(url, {
-          owner: 'worktest-hc2023',
-          repo: 'app-test',
-          name: 'Jenkins Tests Report',
-          head_sha: commitID,
-          status: status,
-          conclusion: con,
-          output: {
-            title: 'Mocha Tests Report',
-            summary: message,
-          },
-          headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-          }
-        })
+        await octokit.request(url, oct_obj);
+    } else{
+        var url = 'PATCH /repos/worktest-hc2023/app-test/check-runs/' + checkrun_id;
+        oct_obj.conclusion = con;
+        await octokit.request(url, oct_obj);
     }
+//    if(status == ""){
+//        var url = 'POST /repos/worktest-hc2023/app-test/check-runs';
+//        await octokit.request(url, {
+//            owner: 'worktest-hc2023',
+//            repo: 'app-test',
+//            name: 'Jenkins Tests Report',
+//            head_sha: commitID,
+//            status: 'in_progress',
+//            output: {
+//                title: 'Jenkins checks in progress',
+//                summary: message,
+//                text: ''
+//              },
+//            headers: {
+//                'X-GitHub-Api-Version': '2022-11-28'
+//            }
+//        });
+//    } else {
+//        var url = 'PATCH /repos/worktest-hc2023/app-test/check-runs/' + checkrun_id;
+//        await octokit.request(url, {
+//          owner: 'worktest-hc2023',
+//          repo: 'app-test',
+//          name: 'Jenkins Tests Report',
+//          head_sha: commitID,
+//          status: status,
+//          conclusion: con,
+//          output: {
+//            title: 'Mocha Tests Report',
+//            summary: message,
+//          },
+//          headers: {
+//            'X-GitHub-Api-Version': '2022-11-28'
+//          }
+//        })
+//    }
 
 }
 
