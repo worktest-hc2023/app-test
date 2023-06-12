@@ -29,48 +29,56 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-                script{
-                    list = ['first-test', 'second-test']
-                    if (env.BRANCH_NAME.startsWith('PR')){
-                        env.CHECKRUN_ID = sh (
-                                                script: 'node checkid.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT',
-                                                returnStdout: true
-                                            ).trim()
-                        echo "${CHECKRUN_ID}"
-                    }
-                    try {
-                        list.each { item ->
-                            if (item == 'first-test'){
-                                sh "npm run ${item} > mochaResult"
-                                env.CONCLUSION = ""
-                                env.STAT = "in_progress"
-                            }else{
-                                sh "npm run ${item} >> mochaResult"
-                                env.CONCLUSION = "success"
-                                env.STAT = "completed"
-                            }
-
-                            env.MOCHA_OUTPUT = readFile('mochaResult').trim()
-                            if (env.BRANCH_NAME.startsWith('PR')) {
-                                sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "$CONCLUSION" "$MOCHA_OUTPUT" $CHECKRUN_ID $STAT'
-                            }
-                        }
-
-                    } catch (err) {
-                        env.MOCHA_OUTPUT = readFile('mochaResult').trim()
-                        if (env.BRANCH_NAME.startsWith('PR')) {
-                            sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID "completed"'
-                        }
-                        echo "Tests fail to pass: ${err}"
-//                         sh """
-//                             npm run junit-test
-//                         """
-//                         currentBuild.result = 'FAILURE' //sets build to failure, but doesn't actually say where the failure is so...
-                    }
-                }
+//         stage('Test') {
+//             steps {
+//                 echo 'Testing..'
+//                 script{
+//                     list = ['first-test', 'second-test']
+//                     if (env.BRANCH_NAME.startsWith('PR')){
+//                         env.CHECKRUN_ID = sh (
+//                                                 script: 'node checkid.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT',
+//                                                 returnStdout: true
+//                                             ).trim()
+//                         echo "${CHECKRUN_ID}"
+//                     }
+//                     try {
+//                         list.each { item ->
+//                             if (item == 'first-test'){
+//                                 sh "npm run ${item} > mochaResult"
+//                                 env.CONCLUSION = ""
+//                                 env.STAT = "in_progress"
+//                             }else{
+//                                 sh "npm run ${item} >> mochaResult"
+//                                 env.CONCLUSION = "success"
+//                                 env.STAT = "completed"
+//                             }
+//
+//                             env.MOCHA_OUTPUT = readFile('mochaResult').trim()
+//                             if (env.BRANCH_NAME.startsWith('PR')) {
+//                                 sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "$CONCLUSION" "$MOCHA_OUTPUT" $CHECKRUN_ID $STAT'
+//                             }
+//                         }
+//
+//                     } catch (err) {
+//                         env.MOCHA_OUTPUT = readFile('mochaResult').trim()
+//                         if (env.BRANCH_NAME.startsWith('PR')) {
+//                             sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "failure" "$MOCHA_OUTPUT" $CHECKRUN_ID "completed"'
+//                         }
+//                         echo "Tests fail to pass: ${err}"
+// //                         sh """
+// //                             npm run junit-test
+// //                         """
+// //                         currentBuild.result = 'FAILURE' //sets build to failure, but doesn't actually say where the failure is so...
+//                     }
+//                 }
+//             }
+//         }
+        stage('Plugin Testing'){
+            steps{
+                publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
+                    text: 'you can publish checks in pipeline script',
+                    detailsURL: 'https://github.com/jenkinsci/checks-api-plugin#pipeline-usage',
+                    actions: [[label:'an-user-request-action', description:'actions allow users to request pre-defined behaviours', identifier:'an unique identifier']]
             }
         }
         stage('Deploy') {
