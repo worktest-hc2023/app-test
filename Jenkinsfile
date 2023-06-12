@@ -21,12 +21,12 @@ pipeline {
                     npm install
                 """
 //                 for making an in-progress check, although it would be better to somehow get a checkrun id and update it
-                script{
-                    if (env.BRANCH_NAME.startsWith('PR')) {
-                        echo "Entered in-progress branch statement"
-                        sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" "" "" ""'
-                    }
-                }
+//                 script{
+//                     if (env.BRANCH_NAME.startsWith('PR')) {
+//                         echo "Entered in-progress branch statement"
+//                         sh 'node testfile1.js $GITHUB_APP "$GITHUB_PERM" $GITHUB_INSTALLATION $GIT_COMMIT "" "" "" ""'
+//                     }
+//                 }
             }
         }
 //         stage('Test') {
