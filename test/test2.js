@@ -23,9 +23,9 @@ describe('Timeout waiting, 19=19', function(){
     });
 });
 
-//describe('Guaranteed Fail Tests', function(){
-//    it('Checks if 9 + 10 = 21', (done)=>{
-//        expect(9+10).to.equal(21);
-//        done();
-//    });
-//});
+describe('Guaranteed Fail Tests', function(){
+    it('Checks if 9 + 10 = 21', (done)=>{
+        expect(9+10).to.equal(21);
+        done();
+    });
+});
