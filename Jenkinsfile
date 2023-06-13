@@ -79,7 +79,7 @@ pipeline {
                 script{
                     sh 'npm test'
                 }
-                publishChecks(name: 'example', conclusion: 'success', summary: 'Everything is ok')
+                publishChecks(name: 'example', status: 'in_progress', summary: 'In test phase')
             }
         }
         stage('Deploy') {
