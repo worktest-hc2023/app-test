@@ -79,6 +79,7 @@ pipeline {
                 script{
                     sh 'npm test'
                 }
+            }
         }
         stage('Deploy') {
             steps {
