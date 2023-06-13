@@ -76,6 +76,9 @@ pipeline {
         stage('Plugin Testing'){
             steps{
                 echo 'Testing..'
+                script{
+                    sh 'npm test'
+                }
                 publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
                     text: 'you can publish checks in pipeline script',
                     detailsURL: 'https://github.com/jenkinsci/checks-api-plugin#pipeline-usage',
