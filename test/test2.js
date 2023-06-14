@@ -16,6 +16,13 @@ describe('Test 2.0 to wait', function(){
 });
 
 describe('Guaranteed Fail Tests', function(){
+    it('Checks if 1 + 1 = 3', (done)=>{
+        expect(1+1).to.equal(3);
+        done();
+    });
+});
+
+describe('Guaranteed Fail Tests', function(){
     it('Checks if 9 + 10 = 21', (done)=>{
         expect(9+10).to.equal(21);
         done();
