@@ -15,6 +15,13 @@ describe('Test 2.0 to wait', function(){
     });
 });
 
+describe('Guaranteed Fail Tests', function(){
+    it('Checks if 9 + 10 = 21', (done)=>{
+        expect(9+10).to.equal(21);
+        done();
+    });
+});
+
 describe('Timeout waiting, 19=19', function(){
     it('Checks if timeout for 3 seconds', (done)=>{
 //        this.timeout(30000);
@@ -22,10 +29,3 @@ describe('Timeout waiting, 19=19', function(){
         done();
     });
 });
-
-//describe('Guaranteed Fail Tests', function(){
-//    it('Checks if 9 + 10 = 21', (done)=>{
-//        expect(9+10).to.equal(21);
-//        done();
-//    });
-//});
