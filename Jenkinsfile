@@ -77,8 +77,9 @@ pipeline {
             steps{
                 echo 'Testing..'
                 script{
+//                     sh """npm run junit-test"""
+                    sh 'npm test'
                     sh """npm run junit-test"""
-//                     sh 'npm test'
                 }
 //                 publishChecks(name: 'example', status: 'in_progress', summary: 'In test phase')
             }
