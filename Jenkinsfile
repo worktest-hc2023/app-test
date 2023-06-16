@@ -72,6 +72,7 @@ pipeline {
 //                         sh """
 //                             npm run junit-test
 //                         """
+                        sh "exit 1"
 //                         currentBuild.result = 'FAILURE' //sets build to failure, but doesn't actually say where the failure is so...
                     }
                 }
