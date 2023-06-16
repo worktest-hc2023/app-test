@@ -77,9 +77,9 @@ pipeline {
             steps{
                 echo 'Testing..'
                 script{
-//                     sh """npm run junit-test"""
-                    sh 'npm test'
                     sh """npm run junit-test"""
+//                     sh 'npm test'
+//                     sh """npm run junit-test"""
                 }
 //                 publishChecks(name: 'example', status: 'in_progress', summary: 'In test phase')
             }
@@ -93,7 +93,7 @@ pipeline {
     post {
         always {
             withChecks('MyCheck') {
-//               junit '**/test-results.xml'
+              junit '**/test-results.xml'
             }
 //             junit '**/test-results.xml'
             script {
