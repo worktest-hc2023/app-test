@@ -5,7 +5,9 @@
   "main": "testfile1.js",
   "scripts": {
     "test": "mocha",
-    "junit-test": "mocha --reporter mocha-junit-reporter --reporter-options ./test-results.xml"
+    "junit-test": "mocha --reporter mocha-junit-reporter --reporter-options ./test-results.xml",
+    "first-test": "mocha test/test.js",
+    "second-test": "mocha test/test2.js"
   },
   "repository": {
     "type": "git",
